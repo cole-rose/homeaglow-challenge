@@ -8,8 +8,33 @@ interface Credential {
   password: string;
 }
 
+// Define a function to set cookies
+function setCookie(name: string, value: string, expirationDays: number) {
+  const date = new Date();
+  date.setTime(date.getTime() + expirationDays * 24 * 60 * 60 * 1000);
+  const expires = "expires=" + date.toUTCString();
+  document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+
+// Function to set access token in session cookie
+function setAccessTokenInCookie(accessToken: string) {
+  setCookie("access", accessToken, 1); // 1 day expiration
+}
+
+// Function to set refresh token in session cookie
+function setRefreshTokenInCookie(refreshToken: string) {
+  setCookie("refresh", refreshToken, 1); // 1 day expiration
+}
+
+interface AccessToken {
+  access: string;
+  refresh: string;
+}
+
 // Function to fetch JWT token by making a POST request to the endpoint with credentials
-async function fetchJWTToken(credentials: Credential): Promise<string | null> {
+async function fetchJWTToken(
+  credentials: Credential
+): Promise<AccessToken | null> {
   try {
     const response = await fetch(tokenEndpoint, {
       method: "POST",
@@ -35,19 +60,15 @@ async function fetchJWTToken(credentials: Credential): Promise<string | null> {
   }
 }
 
-// Function to store JWT token in browser cookies
-function storeTokenInCookie(token: string): void {
-  // Set the token in a cookie named 'jwt_token'
-  document.cookie = `jwt_token=${token}; Secure; SameSite=Strict`;
-}
-
 // Main function to fetch token and store it in cookies
 export async function fetchAndStoreToken(
   credentials: Credential
 ): Promise<void> {
   const jwtToken = await fetchJWTToken(credentials);
   if (jwtToken) {
-    storeTokenInCookie(jwtToken);
+    setAccessTokenInCookie(jwtToken.access);
+    setRefreshTokenInCookie(jwtToken.refresh);
+
     console.log("JWT token stored in browser cookies");
   } else {
     console.error("Failed to fetch JWT token");
