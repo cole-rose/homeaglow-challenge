@@ -1,19 +1,24 @@
 import { useQuery } from "react-query";
 import { queryKeys } from "../querykeys";
-interface Message {
+export interface Message {
   id: string;
   firstName: string;
   lastName: string;
   message: string;
   messageDateTime: Date;
 }
-interface GetConversationsResult {
-  conversations: Message[];
+export interface GetUserInfoResult {
+  user_type: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  timezone: string;
 }
 
-export const useUserInfo = (token: string) => {
-  return useQuery<GetConversationsResult, Error>(
-    [queryKeys.conversations],
+export const useGetUserInfo = (token: string) => {
+  return useQuery<GetUserInfoResult, Error>(
+    [queryKeys.userInfo, token],
     () => getUserInfo(token),
     { onError: (err) => console.error("Failed to get conversations:", err) }
   );

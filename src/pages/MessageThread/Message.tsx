@@ -1,18 +1,17 @@
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
 import React from "react";
 
 interface MessageProps {
   name: string;
-  date: string;
+  date: Date;
   message: string;
 }
 export const Message: React.FC<MessageProps> = ({ name, date, message }) => {
   return (
-    <Container>
+    <Box margin={2} height={200} width={400} sx={{ border: "2px solid grey" }}>
       <Box>{name}</Box>
-      <Box>{date}</Box>
+      <Box>{String(date)}</Box>
       <Box>{message}</Box>
-    </Container>
+    </Box>
   );
 };

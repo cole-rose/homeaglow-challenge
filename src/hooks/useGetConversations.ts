@@ -7,13 +7,10 @@ interface Message {
   message: string;
   messageDateTime: Date;
 }
-interface GetConversationsResult {
-  conversations: Message[];
-}
 
 export const useGetConversations = (token: string) => {
-  return useQuery<GetConversationsResult, Error>(
-    [queryKeys.conversations],
+  return useQuery<Message[], Error>(
+    [queryKeys.conversations, token],
     () => getConversations(token),
     { onError: (err) => console.error("Failed to get conversations:", err) }
   );
