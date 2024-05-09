@@ -1,14 +1,17 @@
-import React, { ChangeEvent, useState } from "react";
-// import Button from "@mui/material/Button";
+import React, { useState } from "react";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { fetchAndStoreToken } from "./fetchLoginToken";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../routes";
 
 export const Login = () => {
   const [username, setUsername] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const [hasError, setHasError] = useState<boolean>(false);
+
+  const navigate = useNavigate();
   const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHasError(false);
     setUsername(e.target.value);
@@ -18,8 +21,6 @@ export const Login = () => {
     setHasError(false);
     setPassword(e.target.value);
   };
-  console.log("username:", username);
-  console.log("password:", password);
 
   const onClick = async () => {
     if (
@@ -32,6 +33,7 @@ export const Login = () => {
     }
     try {
       await fetchAndStoreToken({ username: username!, password: password! });
+      navigate(routes.conversations);
     } catch (e) {
       console.error(e);
       setHasError(true);
@@ -59,6 +61,7 @@ export const Login = () => {
           error={hasError}
         />
       </Box>
+      {/* To-Do make more descriptive for different fail cases */}
       {hasError && <Box>You must enter a correct username and password</Box>}
       <Box>
         <Button onClick={onClick}>Login</Button>

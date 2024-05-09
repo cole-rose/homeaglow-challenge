@@ -32,9 +32,9 @@ interface AccessToken {
 }
 
 // Function to fetch JWT token by making a POST request to the endpoint with credentials
-async function fetchJWTToken(
+const fetchJWTToken = async (
   credentials: Credential
-): Promise<AccessToken | null> {
+): Promise<AccessToken | null> => {
   try {
     const response = await fetch(tokenEndpoint, {
       method: "POST",
@@ -45,12 +45,10 @@ async function fetchJWTToken(
       body: JSON.stringify(credentials),
       mode: "cors",
     });
-
-    if (response.ok) {
+    console.log("response:", response);
+    if (response) {
       const tokenData = await response.json();
-      const { token } = tokenData;
-      console.log("token:", token);
-      return token;
+      return tokenData;
     } else {
       throw new Error("Failed to fetch JWT token");
     }
@@ -58,9 +56,12 @@ async function fetchJWTToken(
     console.error("Error fetching JWT token:", error);
     return null;
   }
-}
+};
 
-// Main function to fetch token and store it in cookies
+// To fully flush this out we need to check if the token is valid via call to https://homeaglow-staging.herokuapp.com/api/token/verify/
+// before each api call
+//If the token is invalid we need to hit the https://homeaglow-staging.herokuapp.com/api/token/refresh/ endpoint
+// and store the new result in our session cookies
 export async function fetchAndStoreToken(
   credentials: Credential
 ): Promise<void> {
