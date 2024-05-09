@@ -71,6 +71,6 @@ export async function fetchAndStoreToken(
 
     console.log("JWT token stored in browser cookies");
   } else {
-    console.error("Failed to fetch JWT token");
+    throw new Error("Failed to fetch JWT token");
   }
 }

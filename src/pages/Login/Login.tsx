@@ -22,10 +22,20 @@ export const Login = () => {
   console.log("password:", password);
 
   const onClick = async () => {
-    if (username === null || password === null) {
+    if (
+      username === null ||
+      username === "" ||
+      password === null ||
+      password === ""
+    ) {
       setHasError(true);
     }
-    fetchAndStoreToken({ username: username!, password: password! });
+    try {
+      await fetchAndStoreToken({ username: username!, password: password! });
+    } catch (e) {
+      console.error(e);
+      setHasError(true);
+    }
   };
   return (
     <Container>
@@ -36,6 +46,7 @@ export const Login = () => {
           label="Enter your username"
           variant="filled"
           onChange={onNameChange}
+          error={hasError}
         />
       </Box>
       <Box>
@@ -48,6 +59,7 @@ export const Login = () => {
           error={hasError}
         />
       </Box>
+      {hasError && <Box>You must enter a correct username and password</Box>}
       <Box>
         <Button onClick={onClick}>Login</Button>
       </Box>
