@@ -1,15 +1,20 @@
-import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import "./App.css";
 import { Login } from "./pages/Login/Login";
 import { Conversations } from "./pages/Conversations/Conversations";
 import { MessageThread } from "./pages/MessageThread/MessageThread";
+import { CssBaseline, createTheme } from "@mui/material";
+import { ThemeProvider } from "@emotion/react";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
       <Router>
         <Routes>
           <Route path="/" Component={Login} />
@@ -17,7 +22,7 @@ function App() {
           <Route path="/message-thread/:id" Component={MessageThread} />
         </Routes>
       </Router>
-    </>
+    </ThemeProvider>
   );
 }
 
