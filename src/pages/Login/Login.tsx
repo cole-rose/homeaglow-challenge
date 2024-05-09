@@ -26,6 +26,7 @@ export const Login = () => {
         />
       </Box>
       <Box>
+        {/* To-Do: Ensure this is hidden when the user is typing */}
         <TextField
           id="filled-basic"
           label="Enter your password"
