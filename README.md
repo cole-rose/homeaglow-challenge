@@ -20,4 +20,5 @@ Things I would do differently with more time
 - Sanitize message inputs and validate inputs before making api calls
 - Add onHover to message cards in the Conversations component
 - Remove all ues of 'any' keyword was short on time
+- Sort all messages by proper order
 - More which I will reflect on before the debrief! :D 
