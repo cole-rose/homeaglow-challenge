@@ -45,7 +45,6 @@ const fetchJWTToken = async (
       body: JSON.stringify(credentials),
       mode: "cors",
     });
-    console.log("response:", response);
     if (response) {
       const tokenData = await response.json();
       return tokenData;
@@ -69,8 +68,6 @@ export async function fetchAndStoreToken(
   if (jwtToken) {
     setAccessTokenInCookie(jwtToken.access);
     setRefreshTokenInCookie(jwtToken.refresh);
-
-    console.log("JWT token stored in browser cookies");
   } else {
     throw new Error("Failed to fetch JWT token");
   }

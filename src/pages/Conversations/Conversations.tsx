@@ -13,10 +13,9 @@ export const Conversations = () => {
   const { data: userInfoData, isLoading: isLoadingUser } = useGetUserInfo(
     cookies["access"]
   );
-  console.log("data", convoData, userInfoData);
 
   if (!userInfoData || !convoData) {
-    return <>Data is invalid or loading</>;
+    return <>Data is invalid or loading, try refreshing page</>;
   }
   return isLoadingConvos || isLoadingUser ? (
     <CircularProgress />
@@ -36,6 +35,7 @@ export const Conversations = () => {
             name={`${message.firstName} ${message.lastName}`}
             date={message.messageDateTime}
             message={message.message}
+            id_={message.id}
           />
         ))}
       </Box>

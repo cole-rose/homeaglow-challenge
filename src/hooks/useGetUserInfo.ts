@@ -40,7 +40,6 @@ const getUserInfo = async (token: string) => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log("data:", data);
       return data;
     } else {
       throw new Error("Failed to fetch user info");
