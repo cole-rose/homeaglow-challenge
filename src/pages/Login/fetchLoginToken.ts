@@ -1,5 +1,5 @@
 // Define the endpoint to fetch the JWT token
-const tokenEndpoint = "https://example.com/authenticate";
+const tokenEndpoint = "https://homeaglow-staging.herokuapp.com/api/token/";
 
 // Define the username and password object
 
@@ -8,20 +8,23 @@ interface Credential {
   password: string;
 }
 
+let myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Access-Control-Allow-Origin", "*");
 // Function to fetch JWT token by making a POST request to the endpoint with credentials
 async function fetchJWTToken(credentials: Credential): Promise<string | null> {
   try {
     const response = await fetch(tokenEndpoint, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: myHeaders,
       body: JSON.stringify(credentials),
+      mode: "cors",
     });
 
     if (response.ok) {
       const tokenData = await response.json();
       const { token } = tokenData;
+      console.log("token:", token);
       return token;
     } else {
       throw new Error("Failed to fetch JWT token");
