@@ -8,15 +8,15 @@ interface Credential {
   password: string;
 }
 
-let myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
-myHeaders.append("Access-Control-Allow-Origin", "*");
 // Function to fetch JWT token by making a POST request to the endpoint with credentials
 async function fetchJWTToken(credentials: Credential): Promise<string | null> {
   try {
     const response = await fetch(tokenEndpoint, {
       method: "POST",
-      headers: myHeaders,
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(credentials),
       mode: "cors",
     });
@@ -53,6 +53,3 @@ export async function fetchAndStoreToken(
     console.error("Failed to fetch JWT token");
   }
 }
-
-// // Call the main function to execute the process
-// fetchAndStoreToken(credentials);
