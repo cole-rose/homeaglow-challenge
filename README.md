@@ -1,5 +1,9 @@
 # React + TypeScript + Vite
 
+
+
+This code was a challenge to see how much of a front end site I could complete within 4 hours, starting from scratch with no skeleton code. 
+
 To run this project run:
 
 
